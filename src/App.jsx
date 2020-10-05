@@ -29,7 +29,7 @@ function App() {
           <h4 className="text-center">Lista de tareas</h4>
           <ul className="list-group">
             {tareas.map((item) => (
-              <li className="list-group-item">
+              <li key={item.id} className="list-group-item">
                 <span className="lead">Nombre de la tarea</span>
                 <button className="btn btn-danger btn-sm float-right mx-2">
                   Eliminar
