@@ -30,7 +30,7 @@ function App() {
           <ul className="list-group">
             {tareas.map((item) => (
               <li key={item.id} className="list-group-item">
-                <span className="lead">Nombre de la tarea</span>
+                <span className="lead">{item.nombreTarea}</span>
                 <button className="btn btn-danger btn-sm float-right mx-2">
                   Eliminar
                 </button>
