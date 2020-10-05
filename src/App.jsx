@@ -4,6 +4,8 @@ import shortid from "shortid";
 function App() {
   const [tarea, setTarea] = useState("");
   const [tareas, setTareas] = useState([]);
+  const [modoEdicion, setModoEdicion] = useState(false);
+  const [id, setId] = useState("");
 
   const agregarTarea = (e) => {
     e.preventDefault();
@@ -25,6 +27,29 @@ function App() {
     setTareas(arrayFiltrado);
   };
 
+  const editar = (item) => {
+    console.log(item);
+    setModoEdicion(true);
+    setTarea(item.nombreTarea);
+    setId(item.id);
+  };
+
+  const editarTarea = (e) => {
+    e.preventDefault();
+    if (!tarea.trim()) {
+      console.log("elemento vacio");
+      return;
+    }
+
+    const arrayEditado = tareas.map((item) =>
+      item.id === id ? { id: id, nombreTarea: tarea } : item
+    );
+    setTareas(arrayEditado);
+    setModoEdicion(false);
+    setTarea("");
+    setId("");
+  };
+
   return (
     <div className="container">
       <h1 className="text-center">CRUD Simple</h1>
@@ -42,7 +67,10 @@ function App() {
                 >
                   Eliminar
                 </button>
-                <button className="btn btn-warning btn-sm float-right mx-2">
+                <button
+                  className="btn btn-warning btn-sm float-right mx-2"
+                  onClick={() => editar(item)}
+                >
                   Editar
                 </button>
               </li>
@@ -50,8 +78,10 @@ function App() {
           </ul>
         </div>
         <div className="col-4">
-          <h4 className="text-center">Formulario</h4>
-          <form onSubmit={agregarTarea}>
+          <h4 className="text-center">
+            {modoEdicion ? "Editar Tarea" : "Agregar tarea"}
+          </h4>
+          <form onSubmit={modoEdicion ? editarTarea : agregarTarea}>
             <input
               type="text"
               className="form-control mb-2"
@@ -59,9 +89,15 @@ function App() {
               onChange={(e) => setTarea(e.target.value)}
               value={tarea}
             />
-            <button className="btn btn-dark btn-block" type="submit">
-              Agregar
-            </button>
+            {modoEdicion ? (
+              <button className="btn btn-warning btn-block" type="submit">
+                Editar
+              </button>
+            ) : (
+              <button className="btn btn-dark btn-block" type="submit">
+                Agregar
+              </button>
+            )}
           </form>
         </div>
       </div>
